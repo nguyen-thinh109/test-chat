@@ -29,9 +29,8 @@ export class AppComponent {
       this.isMobileMode = false;
     } else {
       this.isMobileMode = false;
-      this.iframeHeight = this.screenHeight * 2/3;
-      this.iframeWidth = this.screenHeight * 3/8;
-      console.log(this.screenHeight, this.screenWidth, this.iframeHeight, this.iframeWidth)
+      this.iframeHeight = this.screenHeight * 4/5;
+      this.iframeWidth = this.screenHeight * 9/20;
     }
 
     window.addEventListener('message', (e) => {
