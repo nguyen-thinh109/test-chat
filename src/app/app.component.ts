@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'test-chat';
+  title = 'TEST CHAT BOT';
+  isChatOpened: boolean = false;
+
+  showChatFrame():void {
+    this.isChatOpened = !this.isChatOpened;
+  }
 }
