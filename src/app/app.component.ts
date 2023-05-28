@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -14,50 +14,49 @@ export class AppComponent {
   iframeHeight: number = 640;
   isMobileMode: boolean = false;
 
-  constructor() {
+  showChatFrame(): void {
+    this.isChatOpened = !this.isChatOpened;
+  }
+
+  @HostListener('window:resize', ['$event']) onWindowResize(): void {
+    console.log(window.innerHeight, window.innerWidth)
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
-
     //ratio 16:9
     if (this.screenWidth <= 575) {
       this.iframeWidth = this.screenWidth;
       this.iframeHeight = this.screenHeight;
       this.isMobileMode = true;
     } else if (this.screenWidth > 575 && this.screenWidth <= 767) {
-      this.iframeWidth = this.screenWidth * 2/3;
-      this.iframeHeight = this.screenWidth * 32/27;
+      this.iframeHeight = this.screenHeight * 9 / 10;
+      this.iframeWidth = this.screenHeight * 81 / 160;
       this.isMobileMode = false;
     } else {
       this.isMobileMode = false;
-      this.iframeHeight = this.screenHeight * 4/5;
-      this.iframeWidth = this.screenHeight * 9/20;
+      this.iframeHeight = this.screenHeight * 4 / 5;
+      this.iframeWidth = this.screenHeight * 9 / 20;
     }
 
-    window.addEventListener('message', (e) => {
-      let dataTransport = JSON.parse(e.data) || {};
-
-      if (dataTransport?.topic == "BUTTON_CLICK") {
-        switch (dataTransport?.buttonAction) {
-          case "MINIMIZE":
-            console.log(dataTransport);
-            this.isChatOpened = !this.isChatOpened;
-
-            break;
-
-          case "XXX":
-            //do XXX
-            break;
-
-          case "YYY":
-            //do YYY
-            break;
-
-        }
-      }
-    });
   }
 
-  showChatFrame(): void {
-    this.isChatOpened = !this.isChatOpened;
+  @HostListener('window:message', ['$event']) onGettingMessageFromIframe(e: any): void {
+    let dataTransport = JSON.parse(e.data) || {};
+
+    if (dataTransport?.topic == "BUTTON_CLICK") {
+      switch (dataTransport?.buttonAction) {
+        case "MINIMIZE":
+          console.log(dataTransport);
+          this.isChatOpened = !this.isChatOpened;
+          break;
+
+        case "XXX":
+          //do XXX
+          break;
+
+        case "YYY":
+          //do YYY
+          break;
+      }
+    }
   }
 }
