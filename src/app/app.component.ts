@@ -19,7 +19,6 @@ export class AppComponent {
   }
 
   @HostListener('window:resize', ['$event']) onWindowResize(): void {
-    console.log(window.innerHeight, window.innerWidth)
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
     //ratio 16:9
